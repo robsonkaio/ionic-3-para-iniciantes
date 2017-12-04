@@ -11,8 +11,10 @@ import { FeedPageModule } from '../pages/feed/feed.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import {HttpClientModule} from "@angular/common/http";
 import { LoginPageModule } from '../pages/login/login.module';
 import { IntroPageModule } from '../pages/intro/intro.module';
+import { MoovieProvider } from '../providers/moovie/moovie';
 
 
 @NgModule({
@@ -28,7 +30,8 @@ import { IntroPageModule } from '../pages/intro/intro.module';
     IonicModule.forRoot(MyApp),
     FeedPageModule,
     LoginPageModule,
-    IntroPageModule
+    IntroPageModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -42,7 +45,8 @@ import { IntroPageModule } from '../pages/intro/intro.module';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    MoovieProvider
   ]
 })
 export class AppModule {}
