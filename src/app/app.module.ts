@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler, IonicPageModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { AboutPage } from '../pages/about/about';
@@ -18,6 +18,8 @@ import { MoovieProvider } from '../providers/moovie/moovie';
 import { ConfiguracoesPageModule } from '../pages/configuracoes/configuracoes.module';
 import { SobrePageModule } from '../pages/sobre/sobre.module';
 import { PerfilPageModule } from '../pages/perfil/perfil.module';
+import { FilmeDetalhesPageModule } from '../pages/filme-detalhes/filme-detalhes.module';
+import { FilmeDetalhesPage } from '../pages/filme-detalhes/filme-detalhes';
 
 
 @NgModule({
@@ -37,7 +39,9 @@ import { PerfilPageModule } from '../pages/perfil/perfil.module';
     HttpClientModule,
     ConfiguracoesPageModule,
     SobrePageModule,
-    PerfilPageModule
+    PerfilPageModule,
+    IonicPageModule,
+    FilmeDetalhesPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -46,7 +50,7 @@ import { PerfilPageModule } from '../pages/perfil/perfil.module';
     ContactPage,
     HomePage,
     TabsPage,
-
+    FilmeDetalhesPage
   ],
   providers: [
     StatusBar,

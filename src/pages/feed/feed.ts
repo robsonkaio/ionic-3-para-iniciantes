@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { MoovieProvider } from '../../providers/moovie/moovie';
+import { FilmeDetalhesPage } from '../filme-detalhes/filme-detalhes';
 
 /**
  * Generated class for the FeedPage page.
@@ -30,10 +31,12 @@ export class FeedPage {
   public lista_filmes = new Array<any>();
 
   public nome_usuario: string = "Robson Kaio";
+  public page = 1;
 
   public loader;
   public refresher;
   public isRefreshing: boolean = false;
+  public infiniteScroll;
 
   constructor(
     public navCtrl: NavController,
@@ -67,14 +70,31 @@ export class FeedPage {
     this.carregarFilmes();
   }
 
-  carregarFilmes(){
+  abrirDetalhes(filme){
+    console.log(filme);
+    this.navCtrl.push(FilmeDetalhesPage, {id: filme.id});
+  }
+
+  doInfinite(infiniteScroll) {
+    this.page++;
+    this.infiniteScroll = infiniteScroll;
+    this.carregarFilmes(true);
+  }
+
+  carregarFilmes(newpage: boolean = false){
     this.abreCarregando();
-    this.movieProvider.getLatestMovies().subscribe(
+    this.movieProvider.getLatestMovies(this.page).subscribe(
       data => {
         const response = (data as any);
         //const objeto_retorno = JSON.parse(response._body);
         const objeto_retorno = JSON.parse(JSON.stringify(response || null ));
-        this.lista_filmes = objeto_retorno.results;
+
+        if(newpage){
+          this.lista_filmes = this.lista_filmes.concat(objeto_retorno.results);
+          this.infiniteScroll.complete();
+        }else{
+          this.lista_filmes = objeto_retorno.results;
+        }
         console.log(objeto_retorno);
         this.fechaCarregando();
         if(this.isRefreshing){
