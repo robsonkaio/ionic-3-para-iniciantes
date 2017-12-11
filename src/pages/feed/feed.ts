@@ -32,6 +32,8 @@ export class FeedPage {
   public nome_usuario: string = "Robson Kaio";
 
   public loader;
+  public refresher;
+  public isRefreshing: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -55,7 +57,17 @@ export class FeedPage {
     alert(nome + ", o resultado da soma é: " + (num1 + num2));
   }
 
+  doRefresh(refresher) {
+    this.refresher = refresher;
+    this.isRefreshing = true;
+    this.carregarFilmes();
+  }
+
   ionViewDidEnter() {
+    this.carregarFilmes();
+  }
+
+  carregarFilmes(){
     this.abreCarregando();
     this.movieProvider.getLatestMovies().subscribe(
       data => {
@@ -65,9 +77,17 @@ export class FeedPage {
         this.lista_filmes = objeto_retorno.results;
         console.log(objeto_retorno);
         this.fechaCarregando();
+        if(this.isRefreshing){
+          this.refresher.complete();
+          this.isRefreshing = false;
+        }
       }, error => {
         console.log(error);
         this.fechaCarregando();
+        if(this.isRefreshing){
+          this.refresher.complete();
+          this.isRefreshing = false;
+        }
       }
     )
   }
